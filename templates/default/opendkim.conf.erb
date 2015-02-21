@@ -25,6 +25,7 @@ SubDomains		no
 #ADSPDiscard		no
 #Version		rfc4871
 OversignHeaders	From
+Socket		<%= node[:postfix_dkim][:socket] %>
 
 ###############################################
 # Other (less-standard) configuration options #
