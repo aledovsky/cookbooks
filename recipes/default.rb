@@ -44,6 +44,12 @@ bash "generate and install key" do
   EOH
 end
 
+group "opendkim" do
+  action :modify
+  members "postfix"
+  append true
+end
+
 service "opendkim" do
   action :start
 end
