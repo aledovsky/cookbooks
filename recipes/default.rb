@@ -33,15 +33,20 @@ directory File.dirname(node[:postfix_dkim][:keyfile]) do
   mode 0755
 end
 
-bash "generate and install key" do
+execute "generate and install key" do
   cwd File.dirname(node[:postfix_dkim][:keyfile])
-  code <<-EOH
-    if [ ! -e "#{node[:postfix_dkim][:keyfile]}" ]
-    then
-      opendkim-genkey #{node[:postfix_dkim][:testmode] ? '-t' : ''} -s #{node[:postfix_dkim][:selector]} -d #{node[:postfix_dkim][:domain]}
-      mv "#{node[:postfix_dkim][:selector]}.private" #{File.basename node[:postfix_dkim][:keyfile]}
-    fi
+  not_if { File.exist?(node[:postfix_dkim][:keyfile]) }
+  command <<-EOH
+    opendkim-genkey #{node[:postfix_dkim][:testmode] ? '-t' : ''} -s #{node[:postfix_dkim][:selector]} -d #{node[:postfix_dkim][:domain]}
+    mv "#{node[:postfix_dkim][:selector]}.private" #{File.basename node[:postfix_dkim][:keyfile]}
   EOH
+end
+
+file node[:postfix_dkim][:keyfile] do
+  owner "opendkim"
+  group "opendkim"
+  mode 0400
+  action :create
 end
 
 group "opendkim" do
