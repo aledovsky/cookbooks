@@ -20,11 +20,13 @@
 package 'opendkim'
 
 template "/etc/opendkim.conf" do
+  notifies :restart, "service[opendkim]"
   source "opendkim.conf.erb"
   mode 0755
 end
 
 template "/etc/default/opendkim" do
+  notifies :restart, "service[opendkim]"
   source "opendkim.erb"
   mode 0755
 end
@@ -56,9 +58,6 @@ group "opendkim" do
 end
 
 service "opendkim" do
-  action :start
-end
-
-service "postfix" do
-  action :restart
+  supports status: true, restart: true
+  action :enable
 end
