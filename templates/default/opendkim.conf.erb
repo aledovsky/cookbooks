@@ -27,6 +27,9 @@ SubDomains		no
 #Version		rfc4871
 OversignHeaders	From
 Socket		<%= node[:postfix_dkim][:socket] %>
+On-BadSignature		<%= node[:postfix_dkim][:on_bad_signature] %>
+On-KeyNotFound		<%= node[:postfix_dkim][:on_key_not_found] %>
+On-Security		<%= node[:postfix_dkim][:on_security] %>
 
 ###############################################
 # Other (less-standard) configuration options #
