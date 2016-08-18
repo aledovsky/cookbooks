@@ -31,6 +31,9 @@ On-BadSignature		<%= node[:postfix_dkim][:on_bad_signature] %>
 On-KeyNotFound		<%= node[:postfix_dkim][:on_key_not_found] %>
 On-Security		<%= node[:postfix_dkim][:on_security] %>
 
+# Valid for default repos/builds since opendkim-2.10.3-7.el7
+QueryCache	<%= node[:postfix_dkim][:query_cache] %>
+
 ###############################################
 # Other (less-standard) configuration options #
 ###############################################
